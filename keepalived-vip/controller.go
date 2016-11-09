@@ -284,7 +284,7 @@ func (ipvsc *ipvsControllerController) Stop() error {
 }
 
 // newIPVSController creates a new controller from the given config.
-func newIPVSController(kubeClient *unversioned.Client, namespace string, useUnicast bool, configMapName string) *ipvsControllerController {
+func newIPVSController(kubeClient *unversioned.Client, namespace string, useUnicast bool, configMapName string, routerID int) *ipvsControllerController {
 	ipvsc := ipvsControllerController{
 		client:            kubeClient,
 		reloadRateLimiter: flowcontrol.NewTokenBucketRateLimiter(reloadQPS, int(reloadQPS)),
@@ -323,6 +323,7 @@ func newIPVSController(kubeClient *unversioned.Client, namespace string, useUnic
 		netmask:    nodeInfo.netmask,
 		nodes:      clusterNodes,
 		neighbors:  neighbors,
+		router:     routerID,
 		priority:   getNodePriority(nodeInfo.ip, clusterNodes),
 		useUnicast: useUnicast,
 		ipt:        iptInterface,

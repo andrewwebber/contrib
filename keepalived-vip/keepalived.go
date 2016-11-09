@@ -41,6 +41,7 @@ type keepalived struct {
 	ip         string
 	netmask    int
 	priority   int
+	router     int
 	nodes      []string
 	neighbors  []string
 	useUnicast bool
@@ -71,6 +72,7 @@ func (k *keepalived) WriteCfg(svcs []vip) error {
 	conf["vips"] = getVIPs(svcs)
 	conf["nodes"] = k.neighbors
 	conf["priority"] = k.priority
+	conf["router"] = k.router
 	conf["useUnicast"] = k.useUnicast
 
 	if glog.V(2) {
